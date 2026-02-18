@@ -7,6 +7,77 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&display=swap" rel="stylesheet">
 <style>
+  #password-gate {
+    position: fixed;
+    inset: 0;
+    background: var(--deep);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+
+  #password-gate .gate-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.2rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+  }
+
+  #password-gate input {
+    background: transparent;
+    border: 1px solid rgba(91,191,138,0.3);
+    color: var(--pearl);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    padding: 0.8rem 1.5rem;
+    outline: none;
+    width: 220px;
+    text-align: center;
+    transition: border-color 0.3s;
+  }
+
+  #password-gate input:focus { border-color: var(--accent); }
+
+  #password-gate input::placeholder {
+    color: rgba(168,213,184,0.3);
+    letter-spacing: 0.2em;
+  }
+
+  #password-gate button {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    padding: 0.7rem 2rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    width: 220px;
+  }
+
+  #password-gate button:hover {
+    background: var(--accent);
+    color: var(--deep);
+  }
+
+  #password-gate .gate-error {
+    font-size: 0.6rem;
+    color: var(--rust);
+    letter-spacing: 0.15em;
+    height: 1rem;
+    text-transform: uppercase;
+  }
+
+  #main-content { display: none; }
+</style>
   :root {
     --ocean: #0a2a1f;
     --deep: #061a12;
@@ -680,6 +751,15 @@
 </head>
 <body>
 
+<div id="password-gate">
+  <div class="gate-logo">Stanford × Inversa</div>
+  <input type="password" id="pw-input" placeholder="enter password" autocomplete="off">
+  <button onclick="checkPassword()">Enter →</button>
+  <div class="gate-error" id="pw-error"></div>
+</div>
+
+<div id="main-content">
+
 <div class="scroll-indicator" id="scrollLine"></div>
 
 <nav>
@@ -985,7 +1065,26 @@
   </div>
 </footer>
 
+</div><!-- end main-content -->
+
 <script>
+  // Password gate
+  function checkPassword() {
+    const input = document.getElementById('pw-input').value;
+    if (input === 'savereefs') {
+      document.getElementById('password-gate').style.display = 'none';
+      document.getElementById('main-content').style.display = 'block';
+    } else {
+      document.getElementById('pw-error').textContent = 'incorrect password';
+      document.getElementById('pw-input').value = '';
+      document.getElementById('pw-input').focus();
+    }
+  }
+
+  document.getElementById('pw-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') checkPassword();
+  });
+
   // Scroll progress indicator
   window.addEventListener('scroll', () => {
     const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
