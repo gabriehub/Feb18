@@ -7,6 +7,41 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&display=swap" rel="stylesheet">
 <style>
+  :root {
+    --deep: #061a12;
+    --brine: #4a9e72;
+    --foam: #a8d5b8;
+    --pearl: #f0ede6;
+    --sand: #e8e0d0;
+    --gold: #c9a84c;
+    --rust: #c45c2a;
+    --accent: #5bbf8a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--deep);
+    color: var(--pearl);
+    font-family: 'DM Mono', monospace;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 50%, rgba(45,107,74,0.15) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(91,191,138,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 60% 80%, rgba(10,42,31,0.4) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* PASSWORD GATE */
   #password-gate {
     position: fixed;
     inset: 0;
@@ -19,16 +54,16 @@
     gap: 1.5rem;
   }
 
-  #password-gate .gate-logo {
+  .gate-logo {
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     color: var(--accent);
     letter-spacing: 0.1em;
     margin-bottom: 0.5rem;
   }
 
-  #password-gate input {
+  #pw-input {
     background: transparent;
     border: 1px solid rgba(91,191,138,0.3);
     color: var(--pearl);
@@ -42,14 +77,10 @@
     transition: border-color 0.3s;
   }
 
-  #password-gate input:focus { border-color: var(--accent); }
+  #pw-input:focus { border-color: var(--accent); }
+  #pw-input::placeholder { color: rgba(168,213,184,0.3); }
 
-  #password-gate input::placeholder {
-    color: rgba(168,213,184,0.3);
-    letter-spacing: 0.2em;
-  }
-
-  #password-gate button {
+  #pw-btn {
     background: transparent;
     border: 1px solid var(--accent);
     color: var(--accent);
@@ -63,12 +94,9 @@
     width: 220px;
   }
 
-  #password-gate button:hover {
-    background: var(--accent);
-    color: var(--deep);
-  }
+  #pw-btn:hover { background: var(--accent); color: var(--deep); }
 
-  #password-gate .gate-error {
+  #pw-error {
     font-size: 0.6rem;
     color: var(--rust);
     letter-spacing: 0.15em;
@@ -77,57 +105,6 @@
   }
 
   #main-content { display: none; }
-</style>
-  :root {
-    --ocean: #0a2a1f;
-    --deep: #061a12;
-    --kelp: #1a4030;
-    --reef: #2d6b4a;
-    --brine: #4a9e72;
-    --foam: #a8d5b8;
-    --pearl: #f0ede6;
-    --sand: #e8e0d0;
-    --gold: #c9a84c;
-    --rust: #c45c2a;
-    --accent: #5bbf8a;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--deep);
-    color: var(--pearl);
-    font-family: 'DM Mono', monospace;
-    font-weight: 300;
-    overflow-x: hidden;
-  }
-
-  /* Animated ocean background */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background: 
-      radial-gradient(ellipse at 20% 50%, rgba(45,107,74,0.15) 0%, transparent 60%),
-      radial-gradient(ellipse at 80% 20%, rgba(91,191,138,0.08) 0%, transparent 50%),
-      radial-gradient(ellipse at 60% 80%, rgba(10,42,31,0.4) 0%, transparent 60%);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* Grain texture */
-  body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    opacity: 0.4;
-    pointer-events: none;
-    z-index: 0;
-  }
-
   section, nav, footer { position: relative; z-index: 1; }
 
   /* NAV */
@@ -143,29 +120,9 @@
     backdrop-filter: blur(4px);
   }
 
-  .nav-logo {
-    font-family: 'Fraunces', serif;
-    font-size: 0.85rem;
-    color: var(--accent);
-    letter-spacing: 0.1em;
-    font-style: italic;
-  }
-
-  .nav-links {
-    display: flex;
-    gap: 2.5rem;
-    list-style: none;
-  }
-
-  .nav-links a {
-    color: var(--foam);
-    text-decoration: none;
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    transition: color 0.3s;
-  }
-
+  .nav-logo { font-family: 'Fraunces', serif; font-size: 0.85rem; color: var(--accent); letter-spacing: 0.1em; font-style: italic; }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { color: var(--foam); text-decoration: none; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; transition: color 0.3s; }
   .nav-links a:hover { color: var(--accent); }
 
   /* HERO */
@@ -179,565 +136,115 @@
     position: relative;
   }
 
-  .hero-left { 
-    padding-top: 2rem;
-    animation: fadeUp 1s ease both;
-  }
+  .hero-left { padding-top: 2rem; animation: fadeUp 1s ease both; }
 
   .hero-tag {
-    font-size: 0.6rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
+    font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.8rem;
   }
 
-  .hero-tag::before {
-    content: '';
-    display: block;
-    width: 2rem;
-    height: 1px;
-    background: var(--accent);
-  }
+  .hero-tag::before { content: ''; display: block; width: 2rem; height: 1px; background: var(--accent); }
 
-  .hero h1 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(3rem, 5vw, 5.5rem);
-    font-weight: 300;
-    line-height: 1.05;
-    color: var(--pearl);
-    margin-bottom: 1rem;
-  }
+  .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem, 5vw, 5.5rem); font-weight: 300; line-height: 1.05; color: var(--pearl); margin-bottom: 1rem; }
+  .hero h1 em { font-style: italic; color: var(--foam); }
+  .hero h1 .line-accent { color: var(--accent); }
 
-  .hero h1 em {
-    font-style: italic;
-    color: var(--foam);
-  }
-
-  .hero h1 .line-accent {
-    color: var(--accent);
-  }
-
-  .hero-sub {
-    font-size: 0.75rem;
-    line-height: 1.8;
-    color: var(--foam);
-    max-width: 40ch;
-    margin: 1.5rem 0 2.5rem;
-    letter-spacing: 0.05em;
-  }
+  .hero-sub { font-size: 0.75rem; line-height: 1.8; color: var(--foam); max-width: 40ch; margin: 1.5rem 0 2.5rem; letter-spacing: 0.05em; }
 
   .hero-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.8rem;
-    padding: 0.8rem 1.8rem;
-    border: 1px solid var(--accent);
-    color: var(--accent);
-    text-decoration: none;
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    transition: all 0.3s;
-    position: relative;
-    overflow: hidden;
+    display: inline-flex; align-items: center; gap: 0.8rem; padding: 0.8rem 1.8rem;
+    border: 1px solid var(--accent); color: var(--accent); text-decoration: none;
+    font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+    transition: all 0.3s; position: relative; overflow: hidden;
   }
 
-  .hero-cta::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--accent);
-    transform: translateX(-100%);
-    transition: transform 0.3s;
-    z-index: -1;
-  }
-
+  .hero-cta::before { content: ''; position: absolute; inset: 0; background: var(--accent); transform: translateX(-100%); transition: transform 0.3s; z-index: -1; }
   .hero-cta:hover { color: var(--deep); }
   .hero-cta:hover::before { transform: translateX(0); }
 
-  .hero-right {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    animation: fadeUp 1s 0.2s ease both;
-    opacity: 0;
-  }
+  .hero-right { display: flex; flex-direction: column; gap: 1.5rem; opacity: 0; }
 
-  .stat-card {
-    border: 1px solid rgba(91,191,138,0.2);
-    padding: 1.5rem 2rem;
-    background: rgba(26,64,48,0.2);
-    backdrop-filter: blur(10px);
-    transition: border-color 0.3s, background 0.3s;
-  }
+  .stat-card { border: 1px solid rgba(91,191,138,0.2); padding: 1.5rem 2rem; background: rgba(26,64,48,0.2); backdrop-filter: blur(10px); transition: border-color 0.3s, background 0.3s; }
+  .stat-card:hover { border-color: rgba(91,191,138,0.5); background: rgba(26,64,48,0.4); }
+  .stat-number { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 300; color: var(--accent); line-height: 1; }
+  .stat-label { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--foam); margin-top: 0.3rem; }
+  .stat-desc { font-size: 0.65rem; color: rgba(168,213,184,0.7); margin-top: 0.5rem; line-height: 1.7; }
 
-  .stat-card:hover {
-    border-color: rgba(91,191,138,0.5);
-    background: rgba(26,64,48,0.4);
-  }
+  .divider { height: 1px; background: linear-gradient(to right, transparent, rgba(91,191,138,0.3), transparent); margin: 0 4rem; }
 
-  .stat-number {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 3rem;
-    font-weight: 300;
-    color: var(--accent);
-    line-height: 1;
-  }
+  .section { padding: 6rem 4rem; }
 
-  .stat-label {
-    font-size: 0.6rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--foam);
-    margin-top: 0.3rem;
-  }
+  .section-tag { font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--brine); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.8rem; }
+  .section-tag::before { content: ''; display: block; width: 1.5rem; height: 1px; background: var(--brine); }
 
-  .stat-desc {
-    font-size: 0.65rem;
-    color: rgba(168,213,184,0.7);
-    margin-top: 0.5rem;
-    line-height: 1.7;
-  }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 3.5vw, 3.5rem); font-weight: 300; color: var(--pearl); line-height: 1.1; max-width: 22ch; margin-bottom: 1rem; }
+  .section-title em { font-style: italic; color: var(--foam); }
 
-  /* DIVIDER */
-  .divider {
-    width: 100%;
-    height: 1px;
-    background: linear-gradient(to right, transparent, rgba(91,191,138,0.3), transparent);
-    margin: 0 4rem;
-    width: calc(100% - 8rem);
-  }
-
-  /* SECTION TEMPLATE */
-  .section {
-    padding: 6rem 4rem;
-  }
-
-  .section-tag {
-    font-size: 0.6rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--brine);
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-  }
-
-  .section-tag::before {
-    content: '';
-    display: block;
-    width: 1.5rem;
-    height: 1px;
-    background: var(--brine);
-  }
-
-  .section-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2rem, 3.5vw, 3.5rem);
-    font-weight: 300;
-    color: var(--pearl);
-    line-height: 1.1;
-    max-width: 20ch;
-    margin-bottom: 1rem;
-  }
-
-  .section-title em { 
-    font-style: italic; 
-    color: var(--foam);
-  }
-
-  /* WHO I AM */
-  .about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6rem;
-    margin-top: 4rem;
-    align-items: start;
-  }
-
-  .about-text p {
-    font-size: 0.75rem;
-    line-height: 2;
-    color: var(--foam);
-    margin-bottom: 1.2rem;
-    letter-spacing: 0.03em;
-  }
-
-  .about-text p strong {
-    color: var(--accent);
-    font-weight: 400;
-  }
-
-  .skills-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
-  }
-
-  .skill-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 1rem;
-    padding: 1rem 1.2rem;
-    border-left: 2px solid rgba(91,191,138,0.2);
-    transition: border-color 0.3s;
-  }
-
+  /* ABOUT */
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; margin-top: 4rem; align-items: start; }
+  .about-text p { font-size: 0.75rem; line-height: 2; color: var(--foam); margin-bottom: 1.2rem; letter-spacing: 0.03em; }
+  .about-text p strong { color: var(--accent); font-weight: 400; }
+  .skills-list { list-style: none; display: flex; flex-direction: column; gap: 0.8rem; }
+  .skill-item { display: flex; align-items: flex-start; gap: 1rem; padding: 1rem 1.2rem; border-left: 2px solid rgba(91,191,138,0.2); transition: border-color 0.3s; }
   .skill-item:hover { border-left-color: var(--accent); }
-
-  .skill-icon {
-    font-size: 1.2rem;
-    flex-shrink: 0;
-    margin-top: 0.1rem;
-  }
-
-  .skill-name {
-    font-size: 0.65rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 0.3rem;
-  }
-
-  .skill-desc {
-    font-size: 0.65rem;
-    color: var(--foam);
-    line-height: 1.7;
-    letter-spacing: 0.03em;
-  }
+  .skill-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 0.1rem; }
+  .skill-name { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.3rem; }
+  .skill-desc { font-size: 0.65rem; color: var(--foam); line-height: 1.7; letter-spacing: 0.03em; }
 
   /* DELIVERABLES */
-  .deliverables-intro {
-    max-width: 60ch;
-    font-size: 0.75rem;
-    line-height: 2;
-    color: var(--foam);
-    margin: 1.5rem 0 3rem;
-  }
-
-  .deliverables-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-  }
-
-  .deliverable-card {
-    border: 1px solid rgba(91,191,138,0.15);
-    padding: 2rem;
-    background: rgba(26,64,48,0.15);
-    transition: all 0.3s;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .deliverable-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: var(--accent);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.3s;
-  }
-
-  .deliverable-card:hover {
-    border-color: rgba(91,191,138,0.4);
-    background: rgba(26,64,48,0.3);
-  }
-
+  .deliverables-intro { max-width: 60ch; font-size: 0.75rem; line-height: 2; color: var(--foam); margin: 1.5rem 0 3rem; }
+  .deliverables-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .deliverable-card { border: 1px solid rgba(91,191,138,0.15); padding: 2rem; background: rgba(26,64,48,0.15); transition: all 0.3s; position: relative; overflow: hidden; }
+  .deliverable-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 0.3s; }
+  .deliverable-card:hover { border-color: rgba(91,191,138,0.4); background: rgba(26,64,48,0.3); }
   .deliverable-card:hover::before { transform: scaleX(1); }
+  .card-num { font-family: 'Cormorant Garamond', serif; font-size: 3rem; color: rgba(91,191,138,0.15); font-weight: 300; line-height: 1; margin-bottom: 1rem; }
+  .card-title { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.8rem; }
+  .card-body { font-size: 0.65rem; color: var(--foam); line-height: 1.9; letter-spacing: 0.03em; }
 
-  .card-num {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 3rem;
-    color: rgba(91,191,138,0.15);
-    font-weight: 300;
-    line-height: 1;
-    margin-bottom: 1rem;
-  }
-
-  .card-title {
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 0.8rem;
-  }
-
-  .card-body {
-    font-size: 0.65rem;
-    color: var(--foam);
-    line-height: 1.9;
-    letter-spacing: 0.03em;
-  }
-
-  /* WHAT I NEED — PRESENCE */
-  .presence-section {
-    background: rgba(26,64,48,0.2);
-    border: 1px solid rgba(91,191,138,0.15);
-    padding: 4rem;
-    margin: 6rem 4rem;
-    position: relative;
-  }
-
-  .presence-section::after {
-    content: '"Being present is the work."';
-    position: absolute;
-    bottom: -1px; right: 3rem;
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: 0.7rem;
-    color: rgba(91,191,138,0.4);
-    letter-spacing: 0.1em;
-    background: var(--deep);
-    padding: 0 0.5rem;
-  }
-
-  .presence-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    margin-top: 2.5rem;
-  }
-
-  .presence-item {
-    display: flex;
-    gap: 1.2rem;
-    align-items: flex-start;
-    margin-bottom: 1.5rem;
-  }
-
-  .presence-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--accent);
-    flex-shrink: 0;
-    margin-top: 0.5rem;
-  }
-
-  .presence-text {
-    font-size: 0.7rem;
-    color: var(--foam);
-    line-height: 1.8;
-    letter-spacing: 0.03em;
-  }
-
-  .presence-text strong {
-    color: var(--pearl);
-    font-weight: 400;
-    display: block;
-    margin-bottom: 0.2rem;
-    font-size: 0.65rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-  }
-
-  .nda-banner {
-    margin-top: 2rem;
-    padding: 1.5rem 2rem;
-    border: 1px solid rgba(201,168,76,0.4);
-    background: rgba(201,168,76,0.05);
-    display: flex;
-    gap: 1.2rem;
-    align-items: flex-start;
-  }
-
+  /* PRESENCE */
+  .presence-section { background: rgba(26,64,48,0.2); border: 1px solid rgba(91,191,138,0.15); padding: 4rem; margin: 6rem 4rem; position: relative; }
+  .presence-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 2.5rem; }
+  .presence-item { display: flex; gap: 1.2rem; align-items: flex-start; margin-bottom: 1.5rem; }
+  .presence-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 0.5rem; }
+  .presence-text { font-size: 0.7rem; color: var(--foam); line-height: 1.8; letter-spacing: 0.03em; }
+  .presence-text strong { color: var(--pearl); font-weight: 400; display: block; margin-bottom: 0.2rem; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; }
+  .nda-banner { margin-top: 2rem; padding: 1.5rem 2rem; border: 1px solid rgba(201,168,76,0.4); background: rgba(201,168,76,0.05); display: flex; gap: 1.2rem; align-items: flex-start; }
   .nda-icon { font-size: 1.3rem; flex-shrink: 0; }
+  .nda-text { font-size: 0.65rem; color: var(--sand); line-height: 1.8; letter-spacing: 0.03em; }
+  .nda-text strong { color: var(--gold); font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; font-size: 0.6rem; display: block; margin-bottom: 0.3rem; }
 
-  .nda-text {
-    font-size: 0.65rem;
-    color: var(--sand);
-    line-height: 1.8;
-    letter-spacing: 0.03em;
-  }
+  /* SYLLABUS */
+  .syllabus-section { padding: 6rem 4rem; }
+  .syllabus-highlight { border-left: 3px solid var(--accent); padding: 1.5rem 2rem; background: rgba(91,191,138,0.05); margin: 2rem 0; font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-style: italic; color: var(--foam); line-height: 1.7; }
+  .syllabus-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 3rem; }
+  .syllabus-box { padding: 2rem; border: 1px solid rgba(91,191,138,0.15); }
+  .syllabus-box-title { font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.2rem; padding-bottom: 0.8rem; border-bottom: 1px solid rgba(91,191,138,0.2); }
+  .syllabus-box ul { list-style: none; display: flex; flex-direction: column; gap: 0.8rem; }
+  .syllabus-box li { font-size: 0.65rem; color: var(--foam); line-height: 1.7; padding-left: 1rem; position: relative; letter-spacing: 0.03em; }
+  .syllabus-box li::before { content: '→'; position: absolute; left: 0; color: var(--brine); }
 
-  .nda-text strong {
-    color: var(--gold);
-    font-weight: 400;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    font-size: 0.6rem;
-    display: block;
-    margin-bottom: 0.3rem;
-  }
-
-  /* PROGRAM SYLLABUS SECTION */
-  .syllabus-section {
-    padding: 6rem 4rem;
-  }
-
-  .syllabus-highlight {
-    border-left: 3px solid var(--accent);
-    padding: 1.5rem 2rem;
-    background: rgba(91,191,138,0.05);
-    margin: 2rem 0;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.2rem;
-    font-style: italic;
-    color: var(--foam);
-    line-height: 1.7;
-  }
-
-  .syllabus-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
-    margin-top: 3rem;
-  }
-
-  .syllabus-box {
-    padding: 2rem;
-    border: 1px solid rgba(91,191,138,0.15);
-  }
-
-  .syllabus-box-title {
-    font-size: 0.6rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 1.2rem;
-    padding-bottom: 0.8rem;
-    border-bottom: 1px solid rgba(91,191,138,0.2);
-  }
-
-  .syllabus-box ul {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
-  }
-
-  .syllabus-box li {
-    font-size: 0.65rem;
-    color: var(--foam);
-    line-height: 1.7;
-    padding-left: 1rem;
-    position: relative;
-    letter-spacing: 0.03em;
-  }
-
-  .syllabus-box li::before {
-    content: '→';
-    position: absolute;
-    left: 0;
-    color: var(--brine);
-  }
-
-  /* PDF EMBED */
-  .pdf-section {
-    padding: 4rem;
-    background: rgba(26,64,48,0.1);
-  }
-
-  .pdf-container {
-    margin-top: 2rem;
-    border: 1px solid rgba(91,191,138,0.2);
-    overflow: hidden;
-  }
-
-  .pdf-container embed {
-    width: 100%;
-    height: 700px;
-    display: block;
-  }
-
-  .pdf-fallback {
-    padding: 3rem;
-    text-align: center;
-    background: rgba(26,64,48,0.3);
-  }
-
-  .pdf-fallback a {
-    color: var(--accent);
-    text-decoration: none;
-    font-size: 0.7rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    border-bottom: 1px solid var(--accent);
-    padding-bottom: 2px;
-  }
+  /* PDF */
+  .pdf-section { padding: 4rem; background: rgba(26,64,48,0.1); }
+  .pdf-container { margin-top: 2rem; border: 1px solid rgba(91,191,138,0.2); overflow: hidden; }
+  .pdf-container embed { width: 100%; height: 700px; display: block; }
 
   /* FOOTER */
-  footer {
-    padding: 4rem;
-    border-top: 1px solid rgba(91,191,138,0.1);
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-  }
+  footer { padding: 4rem; border-top: 1px solid rgba(91,191,138,0.1); display: flex; justify-content: space-between; align-items: flex-end; }
+  .footer-left { font-family: 'Cormorant Garamond', serif; font-size: 0.8rem; color: var(--brine); font-style: italic; }
+  .footer-right { font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--brine); text-align: right; line-height: 2; }
 
-  .footer-left {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 0.8rem;
-    color: var(--brine);
-    font-style: italic;
-  }
+  .scroll-indicator { position: fixed; top: 0; left: 0; height: 2px; background: var(--accent); z-index: 200; transition: width 0.1s; width: 0%; }
 
-  .footer-right {
-    font-size: 0.6rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--brine);
-    text-align: right;
-    line-height: 2;
-  }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-  /* SCROLL LINE */
-  .scroll-indicator {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 2px;
-    background: var(--accent);
-    z-index: 200;
-    transition: width 0.1s;
-    width: 0%;
-  }
+  .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
 
-  /* ANIMATIONS */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .fade-in {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
-  }
-
-  .fade-in.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* LOCATION BADGE */
-  .location-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.6rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--brine);
-    margin-bottom: 0.5rem;
-  }
-
-  /* MOBILE */
   @media (max-width: 768px) {
     nav { padding: 1rem 1.5rem; }
     .nav-links { display: none; }
     .hero { grid-template-columns: 1fr; padding: 7rem 2rem 3rem; gap: 2.5rem; }
-    .hero-right { flex-direction: row; flex-wrap: wrap; }
-    .stat-card { flex: 1; min-width: 140px; }
     .section { padding: 4rem 2rem; }
     .about-grid { grid-template-columns: 1fr; gap: 3rem; }
     .deliverables-grid { grid-template-columns: 1fr; }
@@ -754,8 +261,8 @@
 <div id="password-gate">
   <div class="gate-logo">Stanford × Inversa</div>
   <input type="password" id="pw-input" placeholder="enter password" autocomplete="off">
-  <button onclick="checkPassword()">Enter →</button>
-  <div class="gate-error" id="pw-error"></div>
+  <button id="pw-btn" onclick="checkPassword()">Enter →</button>
+  <div id="pw-error"></div>
 </div>
 
 <div id="main-content">
@@ -767,13 +274,12 @@
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#deliverables">Deliverables</a></li>
-    <li><a href="#presence">Presence</a></li>
+    <li><a href="#presence">How It Works</a></li>
     <li><a href="#program">Program</a></li>
     <li><a href="#info-sheet">Info Sheet</a></li>
   </ul>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
   <div class="hero-left">
     <div class="hero-tag">Sustainability Leadership Practicum · SUST 240</div>
@@ -789,17 +295,17 @@
   </div>
 
   <div class="hero-right">
-    <div class="stat-card fade-in">
+    <div class="stat-card">
       <div class="stat-number">80+</div>
       <div class="stat-label">Practicum Hours</div>
       <div class="stat-desc">Dedicated project hours, unpaid, with the partner organization — structured as a genuine collaboration, not a one-off assignment.</div>
     </div>
-    <div class="stat-card fade-in">
+    <div class="stat-card">
       <div class="stat-number">Co-</div>
       <div class="stat-label">Created Project Scope</div>
       <div class="stat-desc">Stanford's program requires the project to be mutually designed — meaning the work genuinely serves Inversa's current needs.</div>
     </div>
-    <div class="stat-card fade-in">
+    <div class="stat-card">
       <div class="stat-number">NDA</div>
       <div class="stat-label">Ready to Sign</div>
       <div class="stat-desc">Sensitive information stays protected. I am fully prepared to sign a Non-Disclosure Agreement before any engagement begins.</div>
@@ -809,25 +315,16 @@
 
 <div class="divider"></div>
 
-<!-- ABOUT -->
 <section class="section" id="about">
   <div class="section-tag">Who I Am</div>
   <h2 class="section-title">Psychology meets <em>purpose-driven</em> product thinking</h2>
 
   <div class="about-grid fade-in">
     <div class="about-text">
-      <p>
-        My background is in <strong>psychology and behavior design</strong> — the study of why people do what they do, and how systems can be shaped to guide better decisions. I'm now applying that lens to sustainability at Stanford's Doerr School.
-      </p>
-      <p>
-        What draws me to Inversa and specifically to the <strong>Origin platform</strong> is the psychology-oriented design challenge at its core: how do you tell the narrative of a lionfish caught off a coral reef in the Yucatan in a way that reaches a consumer? How do you motivate behavior change at the moment someone is deciding whether to buy?
-      </p>
-      <p>
-        I work with <strong>nudges, wise interventions, and Donella Meadows' leverage points</strong> — frameworks for understanding where small changes in a system produce outsized shifts in behavior. That toolkit feels directly relevant to what Origin is trying to do.
-      </p>
-      <p>
-        The Stanford practicum is specifically designed to be a <strong>co-created partnership</strong>. We define the project scope together, based on what Inversa actually needs right now.
-      </p>
+      <p>My background is in <strong>psychology and behavior design</strong> — the study of why people do what they do, and how systems can be shaped to guide better decisions. I'm now applying that lens to sustainability at Stanford's Doerr School.</p>
+      <p>What draws me to Inversa and specifically to the <strong>Origin platform</strong> is the psychology-oriented design challenge at its core: how do you tell the narrative of a lionfish caught off a coral reef in the Yucatan in a way that truly reaches a consumer? How do you motivate behavior change at the moment someone is deciding whether to buy?</p>
+      <p>I work with <strong>nudges, wise interventions, and Donella Meadows' leverage points</strong> — frameworks for understanding where small changes in a system produce outsized shifts in behavior. That toolkit feels directly relevant to what Origin is trying to do.</p>
+      <p>The Stanford practicum is specifically designed to be a <strong>co-created partnership</strong>. We define the project scope together, based on what Inversa actually needs right now.</p>
     </div>
 
     <ul class="skills-list">
@@ -842,7 +339,7 @@
         <div class="skill-icon">🗺️</div>
         <div>
           <div class="skill-name">Systems Mapping</div>
-          <div class="skill-desc">Trained in SUST frameworks for mapping complex social-environmental systems — useful for modeling how supply chain transparency translates to behavior change at scale.</div>
+          <div class="skill-desc">Trained in SUST frameworks including Donella Meadows' leverage points — for mapping complex social-environmental systems and identifying where interventions create the most change.</div>
         </div>
       </li>
       <li class="skill-item">
@@ -865,66 +362,50 @@
 
 <div class="divider"></div>
 
-<!-- DELIVERABLES -->
 <section class="section" id="deliverables">
   <div class="section-tag">What I Could Build</div>
   <h2 class="section-title">Potential <em>deliverables</em> for Inversa</h2>
-  <p class="deliverables-intro">
-    These are starting-point ideas — not fixed commitments. The practicum model requires us to co-design the actual project scope together, so this is about showing the kinds of problems I could meaningfully contribute to.
-  </p>
+  <p class="deliverables-intro">These are starting-point ideas — not fixed commitments. The practicum model requires us to co-design the actual project scope together, so this is about showing the kinds of problems I could meaningfully contribute to.</p>
 
   <div class="deliverables-grid fade-in">
     <div class="deliverable-card">
       <div class="card-num">01</div>
       <div class="card-title">Behavior Exploration of Reef to Runway</div>
-      <div class="card-body">
-        A psychology-oriented exploration of the Reef to Runway digital passport — looking at how its narrative structure and design interact with what we know about sustainable purchasing behavior, consumer identity, and moral motivation. Not a prescriptive audit, but an inquiry: where does the story land, and where might it land harder?
-      </div>
+      <div class="card-body">A psychology-oriented exploration of the Reef to Runway digital passport — looking at how its narrative structure and design interact with what we know about sustainable purchasing behavior, consumer identity, and moral motivation. Not a prescriptive audit, but an inquiry: where does the story land, and where might it land harder?</div>
     </div>
 
     <div class="deliverable-card">
       <div class="card-num">02</div>
       <div class="card-title">Consumer Behavior Research for Origin</div>
-      <div class="card-body">
-        Drawing on wise interventions, nudge theory, and identity-based behavior change, I could explore how the psychology of sustainable consumption applies to Inversa's specific consumer context — what motivates someone to choose an invasive leather, and how traceability could deepen that motivation rather than just satisfy a transparency checkbox.
-      </div>
+      <div class="card-body">Drawing on wise interventions, nudge theory, and identity-based behavior change, I could explore how the psychology of sustainable consumption applies to Inversa's specific consumer context — what motivates someone to choose an invasive leather, and how traceability could deepen that motivation rather than just satisfy a transparency checkbox.</div>
     </div>
 
     <div class="deliverable-card">
       <div class="card-num">03</div>
       <div class="card-title">Systems Map of the Inversa Ecosystem</div>
-      <div class="card-body">
-        As part of my master's, I'll produce a systems map as a required analytical deliverable. For Inversa, this would trace the actors, feedback loops, and leverage points across the full ecosystem: fishers, cooperatives, tanneries, brand partners, regulators, and consumers. Grounded in Donella Meadows' framework for identifying where interventions produce the greatest systemic change.
-      </div>
+      <div class="card-body">As part of my master's, I'll produce a systems map as a required analytical deliverable. For Inversa, this would trace the actors, feedback loops, and leverage points across the full ecosystem: fishers, cooperatives, tanneries, brand partners, regulators, and consumers. Grounded in Donella Meadows' framework for identifying where interventions produce the greatest systemic change.</div>
     </div>
 
     <div class="deliverable-card">
       <div class="card-num">04</div>
       <div class="card-title">Actor & Stakeholder Map</div>
-      <div class="card-body">
-        Also a required part of the practicum analysis — a detailed map of all stakeholders in Inversa's network, their motivations, relationships, and potential points of friction or alignment. Fishers, FWC, NOAA, brand partners, Conservation International, end consumers — and how the digital traceability layer connects them.
-      </div>
+      <div class="card-body">Also a required part of the practicum analysis — a detailed map of all stakeholders in Inversa's network, their motivations, relationships, and potential points of alignment. Fishers, FWC, NOAA, brand partners, Conservation International, end consumers — and how the digital traceability layer connects them.</div>
     </div>
 
     <div class="deliverable-card">
       <div class="card-num">05</div>
       <div class="card-title">Behavior Design & the Origin Platform</div>
-      <div class="card-body">
-        An exploration of how behavior design principles could inform the Origin experience — for field specialists logging captures, for brand partners engaging with supply chain data, and for consumers encountering their product's origin story. What psychological levers are already present, and which haven't been activated yet?
-      </div>
+      <div class="card-body">An exploration of how behavior design principles could inform the Origin experience — for field specialists logging captures, for brand partners engaging with supply chain data, and for consumers encountering their product's origin story. What psychological levers are already present, and which haven't been activated yet?</div>
     </div>
 
     <div class="deliverable-card">
       <div class="card-num">06</div>
       <div class="card-title">Open — Defined Together</div>
-      <div class="card-body">
-        The practicum is structured as a co-created partnership. The right project is whatever Inversa most needs right now that I can meaningfully contribute to. I'm here to be useful, not to execute a predetermined plan.
-      </div>
+      <div class="card-body">The practicum is structured as a co-created partnership. The right project is whatever Inversa most needs right now that I can meaningfully contribute to. I'm here to be useful, not to execute a predetermined plan.</div>
     </div>
   </div>
 </section>
 
-<!-- PRESENCE SECTION -->
 <div class="presence-section fade-in" id="presence">
   <div class="section-tag">How the Practicum Works</div>
   <h2 class="section-title">Embedded, <em>collaborative,</em> and accountable</h2>
@@ -935,7 +416,7 @@
         <div class="presence-dot"></div>
         <div class="presence-text">
           <strong>Part of the Team</strong>
-          Stanford's program is designed for genuine immersion — attending team meetings, observing how the organization makes decisions, and building real working relationships with staff. This is a structural requirement, not a preference.
+          Stanford's program is designed for genuine immersion — attending team meetings, observing how the organization makes decisions, and building real working relationships with staff. This is a structural requirement of the practicum, not a preference.
         </div>
       </div>
       <div class="presence-item">
@@ -957,7 +438,7 @@
       <div class="presence-item">
         <div class="presence-dot"></div>
         <div class="presence-text">
-          <strong>Analytical Deliverables for Inversa</strong>
+          <strong>Real Deliverables for Inversa</strong>
           Beyond the academic paper and presentation, the practicum produces real deliverables for the partner organization — a presentation or report for relevant staff that Inversa can actually use.
         </div>
       </div>
@@ -980,7 +461,6 @@
   </div>
 </div>
 
-<!-- SYLLABUS / PROGRAM INFO -->
 <section class="syllabus-section fade-in" id="program">
   <div class="section-tag">The Program</div>
   <h2 class="section-title">Stanford Doerr SUST 240 — <em>how this works</em></h2>
@@ -1002,11 +482,10 @@
         <li>Complete confidentiality of all sensitive organizational information</li>
       </ul>
     </div>
-
     <div class="syllabus-box">
       <div class="syllabus-box-title">What the program asks of Inversa</div>
       <ul>
-        <li>A senior staff member willing to serve as practicum mentor (Alivia qualifies — 4+ years sustainability experience required)</li>
+        <li>A senior staff member to serve as practicum mentor with sustainability experience</li>
         <li>A genuine, mutually co-developed project scope — not busywork</li>
         <li>Opportunities to collaborate with staff and attend team meetings</li>
         <li>A sustainability challenge I can meaningfully engage with</li>
@@ -1014,7 +493,6 @@
         <li>Optional: the project can be structured as part of a longer paid engagement</li>
       </ul>
     </div>
-
     <div class="syllabus-box">
       <div class="syllabus-box-title">The three analytical lenses I'll apply</div>
       <ul>
@@ -1023,37 +501,33 @@
         <li>Innovating for impact at scale — where Origin and Reef to Runway could go next</li>
       </ul>
     </div>
-
     <div class="syllabus-box">
       <div class="syllabus-box-title">What makes this different from an internship</div>
       <ul>
         <li>The practicum is a capstone academic experience — I bring Stanford rigor and frameworks, not just task completion</li>
         <li>I'm trained to observe organizational dynamics, not just deliver outputs</li>
         <li>The final paper includes honest recommendations for how Inversa could amplify its impact further</li>
-        <li>Strong practicum relationships often extend into longer paid engagements after the core hours are complete</li>
+        <li>Strong practicum relationships often extend into longer paid engagements after the core hours</li>
         <li>You get a thoughtful outside perspective from someone trained in sustainability science</li>
       </ul>
     </div>
   </div>
 </section>
 
-<!-- PDF INFO SHEET -->
 <section class="pdf-section fade-in" id="info-sheet">
   <div class="section-tag">Program Documentation</div>
   <h2 class="section-title">Official Stanford <em>Practicum Info Sheet</em></h2>
   <p style="font-size:0.7rem; color: var(--foam); margin: 1rem 0 2rem; line-height:1.8; max-width:60ch; letter-spacing:0.03em;">
-    This is the official Stanford Doerr School of Sustainability document describing the Sustainability Leadership Practicum program — including what it asks of partner organizations and what I'm expected to deliver.
+    The official Stanford Doerr School of Sustainability document describing the Sustainability Leadership Practicum — including what it asks of partner organizations and what I'm expected to deliver.
   </p>
-
-  <div class="pdf-container">
-    <embed src="Stanford_SUST_Leadership_Practicum_Info_Sheet.pdf" type="application/pdf" width="100%" height="700px">
+  <div style="margin-top: 2rem;">
+    <a href="Stanford_SUST_Leadership_Practicum_Info_Sheet.pdf" target="_blank" style="display:inline-block; padding: 1rem 2rem; border: 1px solid var(--accent); color: var(--accent); text-decoration: none; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; transition: all 0.3s;" onmouseover="this.style.background='#5bbf8a';this.style.color='#061a12'" onmouseout="this.style.background='transparent';this.style.color='#5bbf8a'">View Stanford Practicum Info Sheet →</a>
   </div>
-  <div class="pdf-fallback" style="margin-top:1rem;">
-    <p style="font-size:0.65rem; color:var(--brine); letter-spacing:0.1em;">If the PDF doesn't display, <a href="Stanford_SUST_Leadership_Practicum_Info_Sheet.pdf" target="_blank">open it directly →</a></p>
-  </div>
+  <p style="margin-top:1rem; font-size:0.65rem; color:var(--brine); letter-spacing:0.1em;">
+    If the PDF doesn't display, <a href="Stanford_SUST_Leadership_Practicum_Info_Sheet.pdf" target="_blank" style="color:var(--accent); text-decoration:none; border-bottom:1px solid var(--accent);">open it directly →</a>
+  </p>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-left">
     A proposal rooted in genuine curiosity<br>about what Inversa is building.
@@ -1068,7 +542,6 @@
 </div><!-- end main-content -->
 
 <script>
-  // Password gate
   function checkPassword() {
     const input = document.getElementById('pw-input').value;
     if (input === 'savereefs') {
@@ -1085,40 +558,23 @@
     if (e.key === 'Enter') checkPassword();
   });
 
-  // Scroll progress indicator
   window.addEventListener('scroll', () => {
     const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
     document.getElementById('scrollLine').style.width = scrolled + '%';
   });
 
-  // Fade-in on scroll
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        // Stagger children
-        const children = entry.target.querySelectorAll('.deliverable-card, .stat-card, .skill-item');
-        children.forEach((child, i) => {
-          child.style.transitionDelay = (i * 0.08) + 's';
-          child.style.opacity = '1';
-          child.style.transform = 'translateY(0)';
-        });
-      }
+      if (entry.isIntersecting) entry.target.classList.add('visible');
     });
   }, { threshold: 0.1 });
 
-  document.querySelectorAll('.fade-in').forEach(el => {
-    observer.observe(el);
-    // Set initial state for children
-    el.querySelectorAll('.deliverable-card, .stat-card, .skill-item').forEach(child => {
-      child.style.opacity = '0';
-      child.style.transform = 'translateY(15px)';
-      child.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-    });
-  });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-  // Hero right animation
-  document.querySelector('.hero-right').style.animation = 'fadeUp 1s 0.3s ease both';
+  setTimeout(() => {
+    const hr = document.querySelector('.hero-right');
+    if (hr) { hr.style.transition = 'opacity 1s ease'; hr.style.opacity = '1'; }
+  }, 300);
 </script>
 </body>
 </html>
